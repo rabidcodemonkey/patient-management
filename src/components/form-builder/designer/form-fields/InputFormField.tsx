@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 import {
   FormControl,
@@ -7,21 +7,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 
 type InputFormFieldProps = {
-  formControl: any;
-  name: string;
-  label: string;
-  placeholder?: string;
-  description?: React.ReactNode;
+  formControl: any
+  name: string
+  label: string
+  placeholder?: string
+  description?: React.ReactNode
 
-  onEnterKey?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-};
+  onEnterKey?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+}
 
 function InputFormField(props: InputFormFieldProps) {
-  const { formControl, name, label, placeholder, description } = props;
+  const { formControl, name, label, placeholder, description } = props
 
   return (
     <FormField
@@ -36,7 +36,7 @@ function InputFormField(props: InputFormFieldProps) {
               {...(placeholder ? { placeholder } : {})}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  props.onEnterKey?.(e);
+                  props.onEnterKey?.(e)
                 }
               }}
             />
@@ -46,7 +46,7 @@ function InputFormField(props: InputFormFieldProps) {
         </FormItem>
       )}
     />
-  );
+  )
 }
 
-export default InputFormField;
+export default InputFormField

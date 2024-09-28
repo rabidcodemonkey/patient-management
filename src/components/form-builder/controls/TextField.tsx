@@ -18,134 +18,131 @@ import SwitchFormField from '../designer/form-fields/SwitchFormField'
 const type: ControlType = 'TextField'
 
 const properties = {
-    label: 'Text Field',
-    helperText: 'Helper Text',
-    required: false,
-    placeHolderText: 'Placeholder Text',
+  label: 'Text Field',
+  helperText: 'Helper Text',
+  required: false,
+  placeHolderText: 'Placeholder Text',
 }
 
 export const TextFieldFormControl: Control = {
+  type,
+
+  sidebarButton: {
+    label: 'Text Field',
+    icon: ALargeSmall,
+  },
+
+  designerComponent: DesignerComponent,
+  formComponent: () => <div>TextField Properties</div>,
+  propertiesComponent: PropertiesComponent,
+
+  factory: (id: string) => ({
+    id,
     type,
-
-    sidebarButton: {
-        label: 'Text Field',
-        icon: ALargeSmall,
-    },
-
-    designerComponent: DesignerComponent,
-    formComponent: () => <div>TextField Properties</div>,
-    propertiesComponent: PropertiesComponent,
-
-    factory: (id: string) => ({
-        id,
-        type,
-        properties,
-    }),
+    properties,
+  }),
 }
 
 type TextFieldControlProperties = ControlProperties & {
-    properties: typeof properties
+  properties: typeof properties
 }
 
 function DesignerComponent({ control }: { control: ControlProperties }) {
-    const textFieldProps = control as TextFieldControlProperties
-    const { label, required, placeHolderText, helperText } =
-        textFieldProps.properties
+  const textFieldProps = control as TextFieldControlProperties
+  const { label, required, placeHolderText, helperText } =
+    textFieldProps.properties
 
-    return (
-        <div className="flex w-full flex-col gap-2">
-            <Label>
-                {label}
-                {required && '*'}
-            </Label>
-            <Input readOnly disabled placeholder={placeHolderText} />
-            {helperText && (
-                <p className="text-sm text-muted-foreground">{helperText}</p>
-            )}
-        </div>
-    )
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <Label>
+        {label}
+        {required && '*'}
+      </Label>
+      <Input readOnly disabled placeholder={placeHolderText} />
+      {helperText && (
+        <p className="text-sm text-muted-foreground">{helperText}</p>
+      )}
+    </div>
+  )
 }
 
 const propertiesFormSchema = z.object({
-    label: z.string().min(2).max(64),
-    helperText: z.string().max(200),
-    required: z.boolean().default(false),
-    placeHolderText: z.string().max(64),
+  label: z.string().min(2).max(64),
+  helperText: z.string().max(200),
+  required: z.boolean().default(false),
+  placeHolderText: z.string().max(64),
 })
 type PropertiesSchema = z.infer<typeof propertiesFormSchema>
 
 function PropertiesComponent({ control }: { control: ControlProperties }) {
-    const { updateControl } = useDesigner()
-    const textFieldProps = control as TextFieldControlProperties
-    const form = useForm<PropertiesSchema>({
-        resolver: zodResolver(propertiesFormSchema),
-        mode: 'onBlur', //- Save w/o click button
-        defaultValues: {
-            label: textFieldProps.properties.label,
-            helperText: textFieldProps.properties.helperText,
-            required: textFieldProps.properties.required,
-            placeHolderText: textFieldProps.properties.placeHolderText,
-        },
+  const { updateControl } = useDesigner()
+  const textFieldProps = control as TextFieldControlProperties
+  const form = useForm<PropertiesSchema>({
+    resolver: zodResolver(propertiesFormSchema),
+    mode: 'onBlur', //- Save w/o click button
+    defaultValues: {
+      label: textFieldProps.properties.label,
+      helperText: textFieldProps.properties.helperText,
+      required: textFieldProps.properties.required,
+      placeHolderText: textFieldProps.properties.placeHolderText,
+    },
+  })
+
+  useEffect(() => {
+    form.reset(control.properties)
+  }, [control, form])
+
+  function updateProperties(values: PropertiesSchema) {
+    updateControl(control.id, {
+      ...control,
+      properties: { ...values },
     })
+  }
 
-    useEffect(() => {
-        form.reset(control.properties)
-    }, [control, form])
+  return (
+    <Form {...form}>
+      <form onBlur={form.handleSubmit(updateProperties)} className="space-y-3">
+        <InputFormField
+          formControl={form.control}
+          name="label"
+          label="Label"
+          description={
+            <>
+              Label for the text field. <br /> It will be displayed above the
+              field.
+            </>
+          }
+          onEnterKey={(e) => e.currentTarget.blur()}
+        />
 
-    function updateProperties(values: PropertiesSchema) {
-        updateControl(control.id, {
-            ...control,
-            properties: { ...values },
-        })
-    }
+        <InputFormField
+          formControl={form.control}
+          name="placeHolderText"
+          label="Placeholder"
+          description={<>The placeholder of the field</>}
+          onEnterKey={(e) => e.currentTarget.blur()}
+        />
 
-    return (
-        <Form {...form}>
-            <form
-                onBlur={form.handleSubmit(updateProperties)}
-                className="space-y-3"
-            >
-                <InputFormField
-                    formControl={form.control}
-                    name="label"
-                    label="Label"
-                    description={
-                        <>
-                            Label for the text field. <br /> It will be
-                            displayed above the field.
-                        </>
-                    }
-                    onEnterKey={(e) => e.currentTarget.blur()}
-                />
+        <InputFormField
+          formControl={form.control}
+          name="helperText"
+          label="Helper Text"
+          description={
+            <>
+              The helper text of the field. <br />
+              It will be displayed below the field.
+            </>
+          }
+          onEnterKey={(e) => e.currentTarget.blur()}
+        />
 
-                <InputFormField
-                    formControl={form.control}
-                    name="placeHolderText"
-                    label="Placeholder"
-                    description={<>The placeholder of the field</>}
-                    onEnterKey={(e) => e.currentTarget.blur()}
-                />
-
-                <InputFormField
-                    formControl={form.control}
-                    name="helperText"
-                    label="Helper Text"
-                    description={
-                        <>
-                            The helper text of the field. <br />
-                            It will be displayed below the field.
-                        </>
-                    }
-                    onEnterKey={(e) => e.currentTarget.blur()}
-                />
-
-                <SwitchFormField
-                    formControl={form.control}
-                    name="required"
-                    label="Required"
-                    description={<>Whether the field is required or not</>}
-                />
-            </form>
-        </Form>
-    )
+        <SwitchFormField
+          formControl={form.control}
+          name="required"
+          label="Required"
+          description={<>Whether the field is required or not</>}
+        />
+      </form>
+    </Form>
+  )
 }

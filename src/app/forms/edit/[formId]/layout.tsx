@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function layout({ children }: { children: React.ReactNode }) {
-  return <div className='flex w-full flex-grow mx-auto'>{children}</div>;
+  return <div className="mx-auto flex w-full flex-grow">{children}</div>
 }
 
-export default layout;
+export default layout

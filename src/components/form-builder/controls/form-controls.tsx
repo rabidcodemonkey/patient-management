@@ -3,26 +3,26 @@ import { TextFieldFormControl } from './TextField'
 export type ControlType = 'TextField'
 
 export type SidebarButton = {
-    label: string
-    icon: React.ElementType
+  label: string
+  icon: React.ElementType
 }
 
 export type ControlProperties = {
-    id: string
-    type: ControlType
-    properties?: Record<string, any>
+  id: string
+  type: ControlType
+  properties?: Record<string, any>
 }
 
 export type Control = {
-    type: ControlType
+  type: ControlType
 
-    sidebarButton: SidebarButton
+  sidebarButton: SidebarButton
 
-    designerComponent: React.FC<{ control: ControlProperties }>
-    formComponent: React.FC
-    propertiesComponent: React.FC<{ control: ControlProperties }>
+  designerComponent: React.FC<{ control: ControlProperties }>
+  formComponent: React.FC
+  propertiesComponent: React.FC<{ control: ControlProperties }>
 
-    factory: (id: string) => ControlProperties
+  factory: (id: string) => ControlProperties
 }
 
 //----------------------------------------------
@@ -33,9 +33,9 @@ export type Control = {
 //----------------------------------------------
 
 export type ControlComponents = {
-    [key in ControlType]: Control
+  [key in ControlType]: Control
 }
 
 export const FormComponents: ControlComponents = {
-    TextField: TextFieldFormControl,
+  TextField: TextFieldFormControl,
 }
