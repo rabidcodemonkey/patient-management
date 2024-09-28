@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "Run Script: dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm run dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug client-side",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+  ]
+}

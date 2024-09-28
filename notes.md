@@ -20,10 +20,9 @@ Tech Stack
 
 Components
 
-- Register/Login
+- Register/Login (Auth0) - Nick
 - Profile
 - Dashboard
--
 
 Bing GenAI
 Creating a patient management website involves incorporating features that streamline administrative tasks, enhance patient care, and improve overall efficiency. Here are some essential features to consider:
