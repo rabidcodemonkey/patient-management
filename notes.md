@@ -1,22 +1,22 @@
 GenAI
 
-- Leverage as much as possible, treat like an Extream Programming pair partner
+-   Leverage as much as possible, treat like an Extream Programming pair partner
 
 Hosting
 
-- Vercel
+-   Vercel
 
 Tech Stack
 
-- Next.js
-- ShadCN/Tailwind
-- Database (json-graphql-server) -- for now
-- Zustand ? (Does state management work with NextJS)
-- Authentication (Auth0)
-- Realtime (Socket.io)
-  - IoT? (HealthKit, Google, other sports apps?)
-  - In app messaging?
-- WebRTC (PeerJS) - Video Chat
+-   Next.js
+-   ShadCN/Tailwind
+-   Database (json-graphql-server) -- for now
+-   Zustand ? (Does state management work with NextJS)
+-   Authentication (Auth0)
+-   Realtime (Socket.io)
+    -   IoT? (HealthKit, Google, other sports apps?)
+    -   In app messaging?
+-   WebRTC (PeerJS) - Video Chat
 
 Components
 
