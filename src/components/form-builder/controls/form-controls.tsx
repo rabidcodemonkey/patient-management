@@ -18,8 +18,8 @@ export type Control = {
 
   sidebarButton: SidebarButton
 
+  formComponent: React.FC<{ control: ControlProperties }>
   designerComponent: React.FC<{ control: ControlProperties }>
-  formComponent: React.FC
   propertiesComponent: React.FC<{ control: ControlProperties }>
 
   factory: (id: string) => ControlProperties

@@ -6,6 +6,7 @@ import { ControlProperties } from '../controls/form-controls'
 type DesignerContextType = {
   controls: ControlProperties[]
 
+  setControls: React.Dispatch<React.SetStateAction<ControlProperties[]>>
   insertControl: (index: number, control: ControlProperties) => void
   removeControl: (id: string) => void
   updateControl: (id: string, control: ControlProperties) => void
@@ -23,9 +24,9 @@ export default function DesignerContextProvider({
 }: {
   children: React.ReactNode
 }) {
+  const [controls, setControls] = React.useState<ControlProperties[]>([])
   const [selectedControl, setSelectedControl] =
     React.useState<ControlProperties | null>(null)
-  const [controls, setControls] = React.useState<ControlProperties[]>([])
 
   function insertControl(index: number, control: ControlProperties) {
     setControls((prev) => {
@@ -49,6 +50,7 @@ export default function DesignerContextProvider({
     <DesignerContext.Provider
       value={{
         controls,
+        setControls,
         insertControl,
         removeControl,
         updateControl,

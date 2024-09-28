@@ -17,57 +17,15 @@ import SwitchFormField from '../designer/form-fields/SwitchFormField'
 
 const type: ControlType = 'TextField'
 
-const properties = {
+const defaultProperties = {
   label: 'Text Field',
   helperText: 'Helper Text',
   required: false,
   placeHolderText: 'Placeholder Text',
 }
 
-export const TextFieldFormControl: Control = {
-  type,
-
-  sidebarButton: {
-    label: 'Text Field',
-    icon: ALargeSmall,
-  },
-
-  designerComponent: DesignerComponent,
-  formComponent: () => <div>TextField Properties</div>,
-  propertiesComponent: PropertiesComponent,
-
-  factory: (id: string) => ({
-    id,
-    type,
-    properties,
-  }),
-}
-
-type TextFieldControlProperties = ControlProperties & {
-  properties: typeof properties
-}
-
-function DesignerComponent({ control }: { control: ControlProperties }) {
-  const textFieldProps = control as TextFieldControlProperties
-  const { label, required, placeHolderText, helperText } =
-    textFieldProps.properties
-
-  return (
-    <div className="flex w-full flex-col gap-2">
-      <Label>
-        {label}
-        {required && '*'}
-      </Label>
-      <Input readOnly disabled placeholder={placeHolderText} />
-      {helperText && (
-        <p className="text-sm text-muted-foreground">{helperText}</p>
-      )}
-    </div>
-  )
-}
-
 const propertiesFormSchema = z.object({
-  label: z.string().min(2).max(64),
+  label: z.string().min(1).max(64),
   helperText: z.string().max(200),
   required: z.boolean().default(false),
   placeHolderText: z.string().max(64),
@@ -145,4 +103,65 @@ function PropertiesComponent({ control }: { control: ControlProperties }) {
       </form>
     </Form>
   )
+}
+
+type TextFieldControlProperties = ControlProperties & {
+  properties: typeof defaultProperties
+}
+
+function DesignerComponent({ control }: { control: ControlProperties }) {
+  const textFieldProps = control as TextFieldControlProperties
+  const { label, required, placeHolderText, helperText } =
+    textFieldProps.properties
+
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <Label>
+        {label}
+        {required && '*'}
+      </Label>
+      <Input readOnly disabled placeholder={placeHolderText} />
+      {helperText && (
+        <p className="text-sm text-muted-foreground">{helperText}</p>
+      )}
+    </div>
+  )
+}
+
+function FormComponent({ control }: { control: ControlProperties }) {
+  const textFieldProps = control as TextFieldControlProperties
+  const { label, required, placeHolderText, helperText } =
+    textFieldProps.properties
+
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <Label>
+        {label}
+        {required && '*'}
+      </Label>
+      <Input placeholder={placeHolderText} />
+      {helperText && (
+        <p className="text-sm text-muted-foreground">{helperText}</p>
+      )}
+    </div>
+  )
+}
+
+export const TextFieldFormControl: Control = {
+  type,
+
+  sidebarButton: {
+    label: 'Text Field',
+    icon: ALargeSmall,
+  },
+
+  designerComponent: DesignerComponent,
+  formComponent: FormComponent,
+  propertiesComponent: PropertiesComponent,
+
+  factory: (id: string) => ({
+    id,
+    type,
+    properties: { ...defaultProperties },
+  }),
 }

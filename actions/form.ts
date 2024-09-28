@@ -1,19 +1,19 @@
-'use server';
+'use server'
 
-import { Form, formSchema, formSchemaType } from '@/schema/form';
+import { Form, formSchema, formSchemaType } from '@/schema/form'
 
 type CreateFormResponse = {
   data: {
     createForm: {
-      id: string;
-    };
-  };
-};
+      id: string
+    }
+  }
+}
 
 export async function CreateForm(data: formSchemaType) {
-  const validation = formSchema.safeParse(data);
+  const validation = formSchema.safeParse(data)
   if (!validation.success) {
-    throw new Error('CreateFrom validation error');
+    throw new Error('CreateFrom validation error')
   }
 
   const response = await fetch('http://localhost:3001/graphql', {
@@ -37,14 +37,14 @@ export async function CreateForm(data: formSchemaType) {
       `,
       variables: {},
     }),
-  });
+  })
 
   if (!response.ok) {
-    throw new Error('CreateForm network error');
+    throw new Error('CreateForm network error')
   }
 
-  const createFormResponse: CreateFormResponse = await response.json();
-  return createFormResponse.data.createForm.id;
+  const createFormResponse: CreateFormResponse = await response.json()
+  return createFormResponse.data.createForm.id
 }
 
 export async function GetFormById(id: number): Promise<Form> {
@@ -55,8 +55,8 @@ export async function GetFormById(id: number): Promise<Form> {
     },
     body: JSON.stringify({
       query: `
-        query {
-          Form(id: ${id}) {
+        query GetFormById($id: ID!) {
+          Form(id: $id) {
             id
             name
             published
@@ -66,14 +66,42 @@ export async function GetFormById(id: number): Promise<Form> {
           }
         }
       `,
-      variables: {},
+      variables: { id },
     }),
-  });
+  })
 
   if (!response.ok) {
-    throw new Error('GetFormById network error');
+    throw new Error('GetFormById network error')
   }
 
-  const { data } = await response.json();
-  return data.Form as Form;
+  const { data } = await response.json()
+  return data.Form as Form
+}
+
+export async function UpdateFormContent(id: number, content: string) {
+  const response = await fetch('http://localhost:3001/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `
+        mutation UpdateForm($id: ID!, $content: String) {
+          updateForm(id: $id, content: $content) {
+            id
+          }
+        }
+      `,
+      variables: {
+        id,
+        content,
+      },
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error('UpdateFormContent network error')
+  }
+
+  return response.json()
 }
