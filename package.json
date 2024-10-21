@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
-    "serve:gql": "json-graphql-server test/db.js --port 3001"
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
